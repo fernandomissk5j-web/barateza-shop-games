@@ -33,7 +33,7 @@ export const GameCard = ({
             {game.originalPrice && <span className="text-xs text-muted-foreground line-through">
                 R$ {game.originalPrice.toFixed(2)}
               </span>}
-            <span className="text-lg font-bold text-primary font-mono">
+            <span className="text-lg font-mono font-extrabold text-left text-primary">
               {game.price === 0 ? "GRÁTIS" : `R$ ${game.price.toFixed(2)}`}
             </span>
           </div>

@@ -1,8 +1,17 @@
-import { ShoppingCart, Search, Menu } from "lucide-react";
+import { ShoppingCart, Search, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-export const Header = () => {
-  return <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+
+interface HeaderProps {
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+}
+
+export const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
+  const instagramLink = "https://www.instagram.com/baratezashoop/?utm_source=ig_web_button_share_sheet";
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-8">
@@ -28,13 +37,34 @@ export const Header = () => {
           <div className="flex items-center gap-4 flex-1 max-w-md">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input type="search" placeholder="Buscar jogos..." className="pl-10 bg-muted/50 border-border" />
+              <Input 
+                type="search" 
+                placeholder="Buscar jogos..." 
+                className="pl-10 bg-muted/50 border-border"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => onSearchChange("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
-            <Button variant="ghost" size="icon" className="shrink-0 border-accent shadow-lg">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="shrink-0 border-accent shadow-lg"
+              onClick={() => window.open(instagramLink, '_blank')}
+              aria-label="Ir para Instagram"
+            >
               <ShoppingCart className="h-5 w-5" />
             </Button>
           </div>
         </div>
       </div>
-    </header>;
+    </header>
+  );
 };

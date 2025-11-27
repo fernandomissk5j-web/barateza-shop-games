@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const categories = [
@@ -14,9 +13,12 @@ const categories = [
   "Grátis",
 ];
 
-export const FilterBar = () => {
-  const [activeCategory, setActiveCategory] = useState("Todos");
+interface FilterBarProps {
+  activeCategory: string;
+  onCategoryChange: (category: string) => void;
+}
 
+export const FilterBar = ({ activeCategory, onCategoryChange }: FilterBarProps) => {
   return (
     <div className="sticky top-[73px] z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-border">
       <div className="container mx-auto px-4 py-4">
@@ -26,7 +28,7 @@ export const FilterBar = () => {
               key={category}
               variant={activeCategory === category ? "default" : "ghost"}
               size="sm"
-              onClick={() => setActiveCategory(category)}
+              onClick={() => onCategoryChange(category)}
               className={
                 activeCategory === category
                   ? "bg-primary text-primary-foreground shadow-glow-primary whitespace-nowrap"

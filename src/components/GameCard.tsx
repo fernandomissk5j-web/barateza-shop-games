@@ -21,7 +21,7 @@ export const GameCard = ({
     });
   };
   return <div className="group relative bg-card rounded-lg overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-glow-primary">
-      <div className="aspect-[3/4] relative overflow-hidden bg-muted">
+      <div className="aspect-[460/215] relative overflow-hidden bg-muted">
         <img src={game.image} alt={game.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
         {game.discount && <Badge className="absolute top-2 right-2 bg-accent text-accent-foreground font-bold">
             -{game.discount}%

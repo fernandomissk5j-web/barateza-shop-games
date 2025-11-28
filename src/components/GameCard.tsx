@@ -1,14 +1,25 @@
-import { ShoppingCart } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { Game } from "@/data/games";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 interface GameCardProps {
   game: Game;
 }
 export const GameCard = ({
   game
 }: GameCardProps) => {
-  const instagramLink = "https://www.instagram.com/baratezashoop/?utm_source=ig_web_button_share_sheet";
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = () => {
+    addToCart(game);
+    toast({
+      title: "Adicionado ao carrinho!",
+      description: game.title,
+    });
+  };
   return <div className="group relative bg-card rounded-lg overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-glow-primary">
       <div className="aspect-[3/4] relative overflow-hidden bg-muted">
         <img src={game.image} alt={game.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
@@ -38,8 +49,13 @@ export const GameCard = ({
             </span>
           </div>
           
-          <Button size="icon" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow-primary" onClick={() => window.open(instagramLink, '_blank')} aria-label="Adicionar ao carrinho">
-            <ShoppingCart className="h-4 w-4" />
+          <Button 
+            size="icon" 
+            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow-primary" 
+            onClick={handleAddToCart}
+            aria-label="Adicionar ao carrinho"
+          >
+            <Plus className="h-5 w-5" />
           </Button>
         </div>
       </div>

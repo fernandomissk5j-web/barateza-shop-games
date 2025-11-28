@@ -1,6 +1,7 @@
-import { ShoppingCart, Search, Menu, X } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CartSheet } from "@/components/CartSheet";
 
 interface HeaderProps {
   searchQuery: string;
@@ -8,8 +9,6 @@ interface HeaderProps {
 }
 
 export const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
-  const instagramLink = "https://www.instagram.com/baratezashoop/?utm_source=ig_web_button_share_sheet";
-
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container mx-auto px-4 py-4">
@@ -53,15 +52,7 @@ export const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
                 </button>
               )}
             </div>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="shrink-0 border-accent shadow-lg"
-              onClick={() => window.open(instagramLink, '_blank')}
-              aria-label="Ir para Instagram"
-            >
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
+            <CartSheet />
           </div>
         </div>
       </div>

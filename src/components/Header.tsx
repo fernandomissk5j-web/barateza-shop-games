@@ -18,7 +18,7 @@ export const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
               <Menu className="h-6 w-6" />
             </button>
             <h1 className="text-2xl md:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              batezashop
+              BARATEZA SHOP
             </h1>
             <nav className="hidden lg:flex items-center gap-6">
               <a href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors">

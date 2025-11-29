@@ -3,12 +3,14 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { FilterBar } from "@/components/FilterBar";
 import { GameCard } from "@/components/GameCard";
+import { FeaturedSection } from "@/components/FeaturedSection";
 import { Footer } from "@/components/Footer";
 import { games } from "@/data/games";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Todos");
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 300]);
 
   // Mapeamento de categorias para tags dos jogos
   const categoryTagMap: Record<string, string[]> = {
@@ -44,43 +46,59 @@ const Index = () => {
         }
       }
 
-      return matchesSearch && matchesCategory;
+      // Filtro de preço
+      const matchesPrice = game.price >= priceRange[0] && game.price <= priceRange[1];
+
+      return matchesSearch && matchesCategory && matchesPrice;
     });
-  }, [searchQuery, activeCategory]);
+  }, [searchQuery, activeCategory, priceRange]);
 
   return (
     <div className="min-h-screen bg-background">
       <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <Hero />
-      <FilterBar activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+      <FilterBar 
+        activeCategory={activeCategory} 
+        onCategoryChange={setActiveCategory}
+        priceRange={priceRange}
+        onPriceRangeChange={setPriceRange}
+      />
       
-      <main className="container mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">
-            {activeCategory === "Todos" ? "Catálogo Completo" : activeCategory}
-          </h2>
-          <p className="text-muted-foreground">
-            {filteredGames.length} {filteredGames.length === 1 ? "jogo encontrado" : "jogos encontrados"}
-            {searchQuery && ` para "${searchQuery}"`}
-          </p>
-        </div>
-        
-        {filteredGames.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            {filteredGames.map((game) => (
-              <GameCard key={game.id} game={game} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-xl text-muted-foreground">
-              Nenhum jogo encontrado {searchQuery && `para "${searchQuery}"`}
-            </p>
-            <p className="text-sm text-muted-foreground mt-2">
-              Tente uma busca diferente ou selecione outra categoria
-            </p>
-          </div>
+      <main className="container mx-auto px-4 py-12 space-y-16">
+        {/* Seção de Destaques e Ofertas */}
+        {activeCategory === "Todos" && searchQuery === "" && priceRange[0] === 0 && priceRange[1] === 300 && (
+          <FeaturedSection />
         )}
+
+        {/* Catálogo Filtrado */}
+        <section>
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold mb-2">
+              {activeCategory === "Todos" ? "Catálogo Completo" : activeCategory}
+            </h2>
+            <p className="text-muted-foreground">
+              {filteredGames.length} {filteredGames.length === 1 ? "jogo encontrado" : "jogos encontrados"}
+              {searchQuery && ` para "${searchQuery}"`}
+            </p>
+          </div>
+        
+          {filteredGames.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+              {filteredGames.map((game) => (
+                <GameCard key={game.id} game={game} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-xl text-muted-foreground">
+                Nenhum jogo encontrado {searchQuery && `para "${searchQuery}"`}
+              </p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Tente uma busca diferente ou selecione outra categoria
+              </p>
+            </div>
+          )}
+        </section>
       </main>
       
       <Footer />

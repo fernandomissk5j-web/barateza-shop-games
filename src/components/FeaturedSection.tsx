@@ -3,15 +3,15 @@ import { games } from "@/data/games";
 import { Flame } from "lucide-react";
 
 export const FeaturedSection = () => {
-  // Ofertas relâmpago: jogos com maior desconto
+  // Ofertas relâmpago: jogos com maior desconto (55-60%)
   const flashDeals = games
-    .filter(game => game.discount && game.discount >= 85)
+    .filter(game => game.discount && game.discount >= 55)
     .sort((a, b) => (b.discount || 0) - (a.discount || 0))
     .slice(0, 5);
 
-  // Destaques: jogos populares com bom desconto
+  // Destaques: jogos populares com bom desconto (45-54%)
   const highlights = games
-    .filter(game => game.discount && game.discount >= 80 && game.discount < 85)
+    .filter(game => game.discount && game.discount >= 45 && game.discount < 55)
     .slice(0, 5);
 
   return (

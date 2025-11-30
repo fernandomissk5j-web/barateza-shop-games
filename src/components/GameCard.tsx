@@ -1,9 +1,11 @@
-import { Plus } from "lucide-react";
+import { Plus, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { Game } from "@/data/games";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 interface GameCardProps {
   game: Game;
 }
@@ -11,7 +13,10 @@ export const GameCard = ({
   game
 }: GameCardProps) => {
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { toast } = useToast();
+  
+  const inWishlist = isInWishlist(game.id);
 
   const handleAddToCart = () => {
     addToCart(game);
@@ -20,9 +25,36 @@ export const GameCard = ({
       description: game.title,
     });
   };
+
+  const handleToggleWishlist = () => {
+    if (inWishlist) {
+      removeFromWishlist(game.id);
+      toast({
+        title: "Removido dos favoritos",
+      });
+    } else {
+      addToWishlist(game);
+      toast({
+        title: "Adicionado aos favoritos!",
+        description: game.title,
+      });
+    }
+  };
   return <div className="group relative bg-card rounded-lg overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-glow-primary">
       <div className="aspect-[460/215] relative overflow-hidden bg-muted">
         <img src={game.image} alt={game.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+        <Button
+          size="icon"
+          variant="ghost"
+          className={cn(
+            "absolute top-2 left-2 bg-background/80 backdrop-blur hover:bg-background transition-all",
+            inWishlist && "text-red-500 hover:text-red-600"
+          )}
+          onClick={handleToggleWishlist}
+          aria-label={inWishlist ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+        >
+          <Heart className={cn("h-5 w-5", inWishlist && "fill-current")} />
+        </Button>
         {game.discount && <Badge className="absolute top-2 right-2 bg-accent text-accent-foreground font-bold">
             -{game.discount}%
           </Badge>}

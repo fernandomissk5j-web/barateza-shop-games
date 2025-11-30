@@ -2,6 +2,7 @@ import { Search, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CartSheet } from "@/components/CartSheet";
+import { WishlistSheet } from "@/components/WishlistSheet";
 
 interface HeaderProps {
   searchQuery: string;
@@ -52,6 +53,7 @@ export const Header = ({ searchQuery, onSearchChange }: HeaderProps) => {
                 </button>
               )}
             </div>
+            <WishlistSheet />
             <CartSheet />
           </div>
         </div>
